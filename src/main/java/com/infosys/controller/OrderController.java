@@ -61,7 +61,7 @@ public class OrderController {
 	private RestTemplate restTemplate;
 	
 	//FETCHING ALL THE DETAILS BY ORDID
-	@GetMapping(value = "/orders/{orderId}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "api/orders/{orderId}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<OrderDetailsByIdDTO> getOrderDetailsByorderId(@PathVariable int orderId)
 	{
 		try {
@@ -80,7 +80,7 @@ public class OrderController {
 		}
 	}
 	
-	@GetMapping(value = "/orders/seller/{sellerid}",  produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "api/orders/seller/{sellerid}",  produces = MediaType.APPLICATION_JSON_VALUE)
 	public List<ProductsOrderedDTO> getOrderDetailsBySellerId(@PathVariable Integer sellerid)
 	{
 		logger.info("order details by seller id");
@@ -93,7 +93,7 @@ public class OrderController {
 	
 	
 	//CHECKOUT FROM CART FOR PARTICULAR BUYERID
-	@DeleteMapping(value = "/orders/{buyerId}")
+	@DeleteMapping(value = "api/orders/{buyerId}")
 	public void checkoutFromMyCart(@PathVariable int buyerId)
 	{
 		String url =cartUri+"/"+buyerId;
@@ -101,14 +101,14 @@ public class OrderController {
 	}
 	
 	//ADDING TO CART
-	 @PostMapping(value = "/orders/toCart")
+	 @PostMapping(value = "api/orders/toCart")
 	 public void addToMyCart(@RequestBody CartDTO cart)
 		{
 			restTemplate.postForObject(cartUri,cart,String.class);
 		}
 	
 	//PLACING ORDER
-	@PostMapping(value = "/orders/placeorder", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "api/orders/placeorder", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> placeOrder(@RequestBody PlaceOrderDTO placeorder) throws JsonMappingException, JsonProcessingException ,Exception
 		{	
 		String info="Placing order for "+placeorder.toString();
@@ -174,7 +174,7 @@ public class OrderController {
 			return new ResponseEntity<String>(env.getProperty("API.ORDER_PLACED_SUCCESSFULLY"),HttpStatus.OK);
 		}
 
-			@PostMapping(value = "/orders/reorder/{orderId}/{buyerId}")
+			@PostMapping(value = "api/orders/reorder/{orderId}/{buyerId}")
 			public ResponseEntity<String> reOrder(@PathVariable Integer orderId,@PathVariable Integer buyerId) throws Exception
 			{
 				logger.info("reordering the order for buyer "+buyerId);
